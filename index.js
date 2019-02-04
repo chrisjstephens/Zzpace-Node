@@ -6,10 +6,6 @@ let app = express();
 
 app.use(cors());
 
-app.get('/', function(req, res){
-  res.send('hello world');
-});
-
 app.get('/api/processFlights', processFlightsRoute);
 
 app.use(function (req, res, next) {
@@ -17,7 +13,7 @@ app.use(function (req, res, next) {
 })
 
 app.use(function (err, req, res, next) {
-  res.status(500).send('Sorry an error has occured!');
+  res.status(500).send('Sorry an error has occured! - ' + err.message);
 })
 
 app.listen(3000);

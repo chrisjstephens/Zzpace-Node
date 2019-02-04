@@ -1,10 +1,10 @@
-
 var express = require('express');
 var router = express.Router();
 
-router.get('/api/processFlights', function(req, res){
-  //http://localhost:3000/api/processFlights?toLocation=Mars&fromLocation=Earth&departureDate=11-11-11&returnDate=11-11-11&ticketsAmt=5
-  //http://localhost:3000/api/processFlights?type=return&toLocation=Mars&fromLocation=Earth&departureDate=11-11-11&returnDate=11-11-11&ticketsAmt=5
+router.get('/api/processFlights', function(req, res, next){
+  //INVALID-http://localhost:3000/api/processFlights?toLocation=Mars&fromLocation=Earth&departureDate=11-11-11&returnDate=11-11-11&ticketsAmt=5
+  //VALID-http://localhost:3000/api/processFlights?type=return&toLocation=Mars&fromLocation=Earth&departureDate=11-11-11&returnDate=11-11-11&ticketsAmt=5
+  //AWS IP-18.222.76.93:3000
 
   this.type = req.query.type;
   this.toLocation = req.query.toLocation;
@@ -13,19 +13,24 @@ router.get('/api/processFlights', function(req, res){
   this.returnDate = req.query.returnDate;
   this.ticketsAmt = req.query.ticketsAmt;
 
+  console.log('trd', this.returnDate)
+  if (departureDate === 'null' || returnDate === 'null') {
+    res.status(500).send('Please ensure no null values are passed to the date params!');
+  }
+
+  if (!toLocation || !fromLocation || !departureDate || !returnDate || !ticketsAmt) {
+    res.status(500).send('Please ensure every parameter has a value!');
+  }
+
+  if (!type) {
+    res.status(500).send('Please include a type for your query!');
+  }
+
   this.minDate = new Date().toISOString().slice(0,10);
   this.minReturnDate = new Date();
   this.minReturnDate.setDate(this.minReturnDate.getDate() + 1);
   this.minReturnDate = this.minReturnDate.toISOString().slice(0,10);
   this.flightLength = Math.floor(Math.random() * 41) + 40;
-
-  console.log('NEW FORM DATA');
-  console.log('toLocation', toLocation);
-  console.log('fromLocation', fromLocation);
-  console.log('departuredate', departureDate);
-  console.log('returndate', returnDate);
-  console.log('ticketsAmt', ticketsAmt);
-  console.log('type', type);
 
   if (type === 'departure') {
     let departureFlightResults = getDepartureFlightStatus();
@@ -35,10 +40,6 @@ router.get('/api/processFlights', function(req, res){
   if (type === 'return') {
     let returnFlightResults = getReturnFlightStatus();
     res.send(returnFlightResults);
-  }
-
-  if (!type) {
-    res.status(500).send({'invalid data':'invalid'});
   }
 
 });
@@ -229,7 +230,7 @@ function getArrivalTime(departureDate, departHour, flightLength) {
 function getFlightId(fromLocation, flightNumber, toLocation, departureDate) {
   let departureDateNew = new Date(departureDate);
   const flightId = fromLocation.substring(0, 2).toUpperCase() + '-' + flightNumber + '-' + toLocation.substring(0, 2).toUpperCase()
-  + '-' + departureDateNew.getMonth() + departureDateNew.getDate() + departureDateNew.getFullYear().toString().substring(2, 4);
+  + '-' + departureDateNew.getMonth() +1 + departureDateNew.getDate() + departureDateNew.getFullYear().toString().substring(2, 4);
 
   return flightId;
 }
@@ -260,6 +261,5 @@ function calculateFlightPrice(departureDate) {
 
   return price;
 }
-
 
 module.exports = router;
