@@ -13,7 +13,6 @@ router.get('/api/processFlights', function(req, res, next){
   this.returnDate = req.query.returnDate;
   this.ticketsAmt = req.query.ticketsAmt;
 
-  console.log('trd', this.returnDate)
   if (departureDate === 'null' || returnDate === 'null') {
     res.status(500).send('Please ensure no null values are passed to the date params!');
   }
