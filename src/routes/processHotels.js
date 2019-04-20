@@ -19,8 +19,6 @@ router.get('/api/processHotels', function(req, res, next){
     res.status(500).send('Please ensure every parameter has a value!');
   }
 
-//check for roomType params
-
   if (!type) {
     res.status(500).send('Please include a type for your query!');
   }
