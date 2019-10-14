@@ -1,5 +1,6 @@
 let express = require('express');
 let cors = require('cors')
+let dailyDealsRoute = require('./src/routes/dailyDeals.js');
 let processFlightsRoute = require('./src/routes/processFlights.js');
 let processHotelsRoute = require('./src/routes/processHotels.js');
 let showLocationsRoute = require('./src/routes/showLocations.js');
@@ -8,7 +9,7 @@ let app = express();
 
 app.use(cors());
 
-
+app.get('/api/dailyDeals', dailyDealsRoute);
 app.get('/api/processFlights', processFlightsRoute);
 app.get('/api/processHotels', processHotelsRoute);
 app.get('/api/showLocations', showLocationsRoute);
@@ -22,4 +23,3 @@ app.use(function (err, req, res, next) {
 })
 
 app.listen(3000);
-//TODO:update for host domain
