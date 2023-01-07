@@ -39,7 +39,7 @@ db.once('open', () => {
 //app.get('/', requireAuth, function(req, res) { res.send({ hi: 'there' }); });
 
 //TODO AUTH FOR CLIENT/USER ROUTES BASED ON USER TYPE
-//app.post('/api/signup', authenticationRoute.signup);
+app.post('/api/addUser', authenticationRoute.signup);
 app.post('/api/signin', requireSignin, authenticationRoute.signin);
 
 app.get('/api/dailyDeals', dailyDealsRoute);
