@@ -3,11 +3,19 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
 var userSchema = new Schema({
-  username: { type: String, unique: true, lowercase: true, minlength: 8, required: true },
-  password: {type :String, minlength: 8, required: true},
-  type: String
-});
-
+  username: {type: String, unique: true, lowercase: true, minlength: [8, 'Username must be 8 characters minimum'], maxlength: [20, 'Username must be less then 20 characters'], required: [true, 'Username is required']},
+  password: {type: String, minlength: [8, 'Password must be 8 characters minimum'], required: true},
+  type: {type: String },
+  info: {
+    firstName: {type: String },
+    lastName: {type: String },
+    gender: {type: String },
+    address: {type: String },
+    country: {type: String },
+    phoneNumber: {type: String },
+    dateOfBirth: {type: String }
+  }
+  });
 //Before save, below runs taken/modified from udemy course
 userSchema.pre('save', function(next) {
   // get access to the user model

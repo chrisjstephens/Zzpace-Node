@@ -2,7 +2,7 @@ var express = require('express');
 var User = require('../models/user.js');
 var router = express.Router();
 
-router.get('/api/user/:username', (req, res) => {
+router.get('/api/admin/user/:username', (req, res) => {
   //authenticate
   //get data for user signedin
   //get user info

@@ -6,6 +6,8 @@ const LocalStrategy = require('passport-local');
 const User = require('../models/user.js');
 const keys = require('../config/keys.js');
 
+//Some code taken from https://github.com/StephenGrider/AdvancedReduxCode
+
 // Create local strategy used for /login route
 const localOptions = { usernameField: 'username' };
 const localLogin = new LocalStrategy(localOptions, function(username, password, done) {
@@ -28,8 +30,9 @@ const localLogin = new LocalStrategy(localOptions, function(username, password, 
 });
 
 // Setup options for JWT Strategy
+ //looks at request header in authorization & decodes to original jwl before encode
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromHeader('authorization'), //looks at request header in authorization & decodes to original jwl before encode
+  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: keys.jwtSecret
 };
 
@@ -40,7 +43,10 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
   // If it does, call 'done' with that other
   // otherwise, call done without a user object
   //Udemy video recommended to use - User.findById(payload.sub), I have changed to findOne({username: payload.sub})
+  //Uses header authorization
+
   User.findOne({ username: payload.sub }, function(err, user) {
+    //if (err || payload.sub != 'admin') { return done(err, false); }
     if (err) { return done(err, false); }
 
     if (user) {
