@@ -7,6 +7,10 @@ router.delete('/api/admin/deleteUser/:username', (req, res, next) => {
   //Delete id
   //Todo deletes all responses
   //users.findOneAndDelete({ username: req.params.username }, function (err) {
+  if (req.params.username === 'customer') {
+    res.status(400).send("Can't delete the user customer");
+    throw new Error("Can't delete the user customer adsf");
+  }
   users.findOneAndDelete({ username: req.params.username })
   .exec(function(err, user) {  
     if (err)  {
