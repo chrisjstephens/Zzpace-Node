@@ -33,9 +33,9 @@ exports.signup = function(req, res, next) {
     if (err) { return next(err); }
 
     if (existingUser) {
-      //return res.status(409).send({ error: 'Username is in use' });
+      return res.status(409).send('Error - Username is in use');
       //throw new Error("error: 'Username is in use");
-      return next("error: 'Username is in use");
+      //return next("error: 'Username is in use");
     }
 
     const user = new User({
