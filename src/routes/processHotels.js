@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// TODO: Change to post perhaps if get/post changes server state
 router.get('/api/processHotels', function(req, res, next){
   this.type = req.query.type;
   this.hotelLocation = req.query.hotelLocation;

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// TODO: Change to post perhaps if get/post changes server state
 router.get('/api/processFlights', function(req, res, next){
   //INVALID-http://localhost:3000/api/processFlights?toLocation=Mars&fromLocation=Earth&departureDate=11-11-11&returnDate=11-11-11&ticketsAmt=5
   //VALID-http://localhost:3000/api/processFlights?type=return&toLocation=Mars&fromLocation=Earth&departureDate=11-11-11&returnDate=11-11-11&ticketsAmt=5
